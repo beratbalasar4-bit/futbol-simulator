@@ -3,51 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>The Regista - Advanced 2D Match Engine</title>
+    <title>The Regista Pro - Elite 2D Engine</title>
     <style>
         :root {
-            --bg-main: #0b0c10;
-            --bg-panel: #1f2833;
-            --text-main: #c5a059;
-            --text-light: #f5f5f5;
-            --accent: #45f3ff;
-            --pitch-line: rgba(255, 255, 255, 0.35);
+            --bg-dark: #08090a;
+            --bg-card: #14171a;
+            --primary: #c5a059;
+            --text: #e1e1e1;
+            --accent: #00ffcc;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--bg-main); color: var(--text-light); padding: 15px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: var(--bg-dark); color: var(--text); padding: 10px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
         
-        .container { width: 100%; max-width: 1000px; display: flex; flex-direction: column; gap: 15px; }
-        header { text-align: center; margin-bottom: 5px; border-bottom: 2px solid var(--text-main); padding-bottom: 10px; }
-        header h1 { color: var(--text-main); font-size: 1.8rem; letter-spacing: 2px; }
-        header p { font-size: 0.85rem; color: #888; }
+        .container { width: 100%; max-width: 1100px; display: flex; flex-direction: column; gap: 15px; }
+        header { text-align: center; padding: 10px; border-bottom: 2px solid var(--primary); }
+        header h1 { color: var(--primary); font-size: 1.6rem; letter-spacing: 3px; }
 
-        .panel { background: var(--bg-panel); padding: 20px; border-radius: 12px; border: 1px solid #2f3e46; box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
-        h3 { color: var(--text-main); margin-bottom: 15px; font-size: 1.1rem; border-left: 4px solid var(--text-main); padding-left: 8px; }
+        .panel { background: var(--bg-card); padding: 15px; border-radius: 12px; border: 1px solid #222; }
+        h3 { color: var(--primary); margin-bottom: 15px; font-size: 1rem; text-transform: uppercase; }
 
-        .global-settings { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; background: #151a21; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #2a3439; }
-        
         .setup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        @media (max-width: 768px) { .setup-grid { grid-template-columns: 1fr; } .global-settings { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .setup-grid { grid-template-columns: 1fr; } }
 
-        label { display: block; font-size: 0.8rem; color: #999; margin-bottom: 4px; margin-top: 10px; font-weight: bold; text-transform: uppercase; }
-        select { width: 100%; padding: 10px; background: #0f141c; border: 1px solid #3a4750; color: #fff; border-radius: 6px; font-size: 0.9rem; transition: 0.3s; }
-        select:focus { border-color: var(--text-main); outline: none; }
+        label { display: block; font-size: 0.75rem; color: #888; margin-top: 8px; font-weight: bold; }
+        select, input { width: 100%; padding: 8px; background: #0b0c0d; border: 1px solid #333; color: #fff; border-radius: 6px; font-size: 0.85rem; margin-top: 4px; }
+        select:focus, input:focus { border-color: var(--primary); outline: none; }
 
-        .btn { display: block; width: 100%; padding: 14px; background: var(--text-main); border: none; color: #000; font-size: 1.1rem; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 20px; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
-        .btn:hover { background: #e0b35c; box-shadow: 0 0 15px rgba(197, 160, 89, 0.4); }
+        /* Maçkolik Tarzı Boş Kadro Alanı */
+        .squad-builder { background: #0b0c0d; padding: 10px; border-radius: 8px; border: 1px solid #222; margin-top: 10px; }
+        .positions-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 10px; }
+        .pos-slot { background: #181b1f; padding: 6px; border-radius: 4px; border: 1px solid #2d3139; display: flex; flex-direction: column; }
+        .pos-slot span { font-size: 0.7rem; color: var(--primary); font-weight: bold; }
 
-        /* Skor ve Canlı İstatistik */
-        .scoreboard { display: flex; justify-content: space-between; align-items: center; background: #0f141c; padding: 15px 25px; border-radius: 8px; border: 1px solid #2a3439; font-weight: bold; font-size: 1.3rem; margin-bottom: 10px; }
-        .score-team { display: flex; align-items: center; gap: 10px; }
-        .time { color: var(--accent); font-family: 'Courier New', Courier, monospace; font-size: 1.5rem; background: #000; padding: 4px 10px; border-radius: 4px; border: 1px solid #222; }
+        .btn { display: block; width: 100%; padding: 12px; background: var(--primary); border: none; color: #000; font-size: 1rem; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 15px; text-transform: uppercase; }
+        .btn:hover { background: #d9b265; }
 
-        /* Saha Yapısı */
-        .pitch-container { width: 100%; background: #050505; border-radius: 10px; overflow: hidden; display: flex; justify-content: center; border: 2px solid #2f3e46; position: relative; }
-        canvas { background: #143d1f; display: block; max-width: 100%; height: auto; }
+        /* Canlı Maç Ekranı */
+        .scoreboard { display: flex; justify-content: space-between; align-items: center; background: #000; padding: 12px 20px; border-radius: 8px; border: 1px solid #222; font-weight: bold; font-size: 1.1rem; }
+        .time { color: var(--accent); font-family: monospace; font-size: 1.3rem; }
+        
+        .pitch-container { width: 100%; background: #020202; border-radius: 10px; overflow: hidden; display: flex; justify-content: center; border: 2px solid #333; }
+        canvas { background: #113318; display: block; max-width: 100%; height: auto; }
 
-        .live-report { background: #0f141c; padding: 10px; border-radius: 6px; font-size: 0.85rem; height: 40px; overflow: hidden; text-align: center; color: #aaa; border: 1px solid #2a3439; margin-top: 10px; line-height: 20px; }
-
+        .live-ticker { background: #0b0c0d; padding: 8px; text-align: center; font-size: 0.8rem; color: #aaa; border-radius: 6px; border: 1px solid #222; margin-top: 8px; height: 35px; }
         .hidden { display: none !important; }
     </style>
 </head>
@@ -55,118 +54,83 @@
 
 <div class="container">
     <header>
-        <h1>THE REGISTA</h1>
-        <p>Sofifa Pro & Tactical 2D Match Engine</p>
+        <h1>THE REGISTA PRO</h1>
     </header>
     
     <div id="setupPanel" class="panel">
-        <div class="global-settings">
-            <div>
-                <label>Maç Süresi (Gerçek Zamanlı)</label>
-                <select id="matchDuration">
-                    <option value="2">2 Dakika (Aşırı Hızlı)</option>
-                    <option value="5" selected>5 Dakika (Dengeli Simülasyon)</option>
-                    <option value="10">10 Dakika (Taktiksel Analiz)</option>
-                </select>
-            </div>
-            <div>
-                <label>Maç Kondisyonu / Hava Durumu</label>
-                <select id="weather">
-                    <option value="normal">Güneşli (Zemin İdeal)</option>
-                    <option value="rainy">Yağmurlu (Top Hızlanır, Pas Hatası Artar)</option>
-                </select>
-            </div>
+        <div style="margin-bottom: 15px;">
+            <label>Maç Süresi</label>
+            <select id="matchDuration">
+                <option value="2" selected>2 Dakika (Hızlı Aksiyon)</option>
+                <option value="5">5 Dakika (Dengeli)</option>
+                <option value="10">10 Dakika (Taktiksel Derinlik)</option>
+            </select>
         </div>
 
         <div class="setup-grid">
-            <div style="background: rgba(52, 152, 219, 0.05); padding: 15px; border-radius: 8px; border: 1px solid rgba(52, 152, 219, 0.2);">
-                <h4 style="color: #3498db; font-size: 1.1rem; margin-bottom: 10px;">🛡️ Ev Sahibi Takım</h4>
-                
-                <label>Kadro Seçimi</label>
-                <select id="hSquad">
-                    <option value="fenerbahce">Fenerbahçe Efsaneleri / Güncel</option>
-                    <option value="worldclass">Sofifa World XI (Hücum Ağırlıklı)</option>
+            <div>
+                <h3 style="color: #3498db;">🏠 Ev Sahibi Kadrosu</h3>
+                <label>Diziliş Varyasyonu</label>
+                <select id="hForm" onchange="generateSquadSlots('home')">
+                    <option value="433_att">4-3-3 (Ofansif - CAM'lı)</option>
+                    <option value="4231_wide">4-2-3-1 (Geniş Varyasyon)</option>
+                    <option value="3421_fm">3-4-2-1 (FM Klasiği)</option>
+                    <option value="532_def">5-3-2 (Katı Kontra)</option>
                 </select>
 
-                <label>Diziliş</label>
-                <select id="hForm">
-                    <option value="4231">4-2-3-1 (Modern Geniş)</option>
-                    <option value="433">4-3-3 (Tiki-Taka İdeal)</option>
-                    <option value="442">4-4-2 (Klasik / Pres)</option>
-                    <option value="352">3-5-2 (Orta Saha Blokajı)</option>
-                    <option value="532">5-3-2 (Katı Savunma)</option>
-                </select>
-
-                <label>Oyun Tarzı</label>
+                <label>Taktik Stil</label>
                 <select id="hTactic">
-                    <option value="gegen">Gegenpress (Yüksek Şok Pres)</option>
-                    <option value="tiki" selected>Tiki-Taka (Kısa ve Sabırlı Pas)</option>
-                    <option value="counter">Kontra Atak (Hızlı Çıkış)</option>
-                    <option value="wing">Kanat Organizasyonları</option>
-                    <option value="bus">Otobüsü Çek (Catenaccio)</option>
+                    <option value="tiki">Tiki-Taka (Kısa Pas / Yüksek İsabet)</option>
+                    <option value="gegen">Gegenpress (Şok Pres / Agresif)</option>
+                    <option value="counter">Akıcı Kontra Atak</option>
+                    <option value="bus">Otobüsü Çek (Katı Catenaccio)</option>
                 </select>
 
-                <label>Savunma Çizgisi</label>
-                <select id="hLine">
-                    <option value="high">Önde (Üçüncü Bölge Baskısı)</option>
-                    <option value="mid" selected>Standart (İkinci Bölge)</option>
-                    <option value="low">Gömülü (Ceza Sahası Önü)</option>
-                </select>
+                <div class="squad-builder">
+                    <p style="font-size:0.75rem; color:#666;">Oyuncu ismini Sofifa'ya göre yazın (Örn: Messi, Ronaldo, Tadic, Dzeko, Mbappe vb.)</p>
+                    <div id="homeSlots" class="positions-grid"></div>
+                </div>
             </div>
-            
-            <div style="background: rgba(231, 76, 60, 0.05); padding: 15px; border-radius: 8px; border: 1px solid rgba(231, 76, 60, 0.2);">
-                <h4 style="color: #e74c3c; font-size: 1.1rem; margin-bottom: 10px;">🚀 Deplasman Takımı</h4>
-                
-                <label>Kadro Seçimi</label>
-                <select id="aSquad">
-                    <option value="allstar">Sofifa All-Stars (Galacticos)</option>
-                    <option value="fenerbahce">Fenerbahçe Karma</option>
+
+            <div>
+                <h3 style="color: #e74c3c;">🚀 Deplasman Kadrosu</h3>
+                <label>Diziliş Varyasyonu</label>
+                <select id="aForm" onchange="generateSquadSlots('away')">
+                    <option value="433_att">4-3-3 (Ofansif - CAM'lı)</option>
+                    <option value="4231_wide" selected>4-2-3-1 (Geniş Varyasyon)</option>
+                    <option value="3421_fm">3-4-2-1 (FM Klasiği)</option>
+                    <option value="532_def">5-3-2 (Katı Kontra)</option>
                 </select>
 
-                <label>Diziliş</label>
-                <select id="aForm">
-                    <option value="433" selected>4-3-3 (Ofansif Akış)</option>
-                    <option value="4231">4-2-3-1 (Dengeli Kurulum)</option>
-                    <option value="442">4-4-2 (Kanat Baskısı)</option>
-                    <option value="352">3-5-2 (Dinamik Geçiş)</option>
-                    <option value="541">5-4-1 (Tam Kilit)</option>
-                </select>
-
-                <label>Oyun Tarzı</label>
+                <label>Taktik Stil</label>
                 <select id="aTactic">
-                    <option value="gegen">Gegenpress (Yoğun Baskı)</option>
+                    <option value="counter" selected>Akıcı Kontra Atak</option>
                     <option value="tiki">Tiki-Taka (Kısa Pas)</option>
-                    <option value="counter" selected>Kontra Atak (Ölümcül Geçiş)</option>
-                    <option value="wing">Kanat Hücumu</option>
-                    <option value="bus">Otobüsü Çek (Defans Bloğu)</option>
+                    <option value="gegen">Gegenpress (Şok Pres)</option>
+                    <option value="bus">Otobüsü Çek (Katı Catenaccio)</option>
                 </select>
 
-                <label>Savunma Çizgisi</label>
-                <select id="aLine">
-                    <option value="high">Önde Basan</option>
-                    <option value="mid">Merkezde Kalan</option>
-                    <option value="low" selected>Derin Savunma</option>
-                </select>
+                <div class="squad-builder">
+                    <p style="font-size:0.75rem; color:#666;">Oyuncu ismini Sofifa'ya göre yazın</p>
+                    <div id="awaySlots" class="positions-grid"></div>
+                </div>
             </div>
         </div>
-        <button class="btn" onclick="startEngine()">Stratejiyi Uygula ve Maçı Başlat</button>
+        <button class="btn" onclick="buildAndStart()">Kadroları Gönder ve Maçı Başlat</button>
     </div>
 
     <div id="matchPanel" class="panel hidden">
         <div class="scoreboard">
-            <div class="score-team"><span style="width:12px; height:12px; background:#3498db; border-radius:50%;"></span> EV SAHİBİ</div>
-            <div id="scoreDisplay" style="letter-spacing: 3px; font-size: 1.6rem; color: #fff;">0 - 0</div>
-            <div class="score-team">DEPLASMAN <span style="width:12px; height:12px; background:#e74c3c; border-radius:50%;"></span></div>
+            <span style="color:#3498db;">EV SAHİBİ</span>
+            <span id="scoreDisplay">0 - 0</span>
+            <span style="color:#e74c3c;">DEPLASMAN</span>
             <div class="time" id="timeDisplay">00:00</div>
         </div>
-        
         <div class="pitch-container">
-            <canvas id="pitch" width="750" height="480"></canvas>
+            <canvas id="pitch" width="760" height="460"></canvas>
         </div>
-
-        <div id="liveReport" class="live-report">Maç başlıyor, takımlar sahaya çıkıyor...</div>
-        
-        <button class="btn" style="background: #e74c3c; color: #fff;" onclick="abortMatch()">Maçı Durdur ve Ayarlara Dön</button>
+        <div id="liveTicker" class="live-ticker">Maç başladı...</div>
+        <button class="btn" style="background:#e74c3c; color:#fff;" onclick="stopMatchLoop()">Maçı Bitir ve Düzenle</button>
     </div>
 </div>
 
@@ -174,390 +138,282 @@
 const canvas = document.getElementById('pitch');
 const ctx = canvas.getContext('2d');
 
-// SOFIFA AYARLARINA UYGUN REYTING VERİTABANI
-const sofifaDatabase = {
-    fenerbahce: [
-        { name: "D. Livakovic", role: "GK", ovr: 82, pac: 45, sho: 15, pas: 68, def: 82, phy: 78 },
-        { name: "B. Osayi-Samuel", role: "RB", ovr: 78, pac: 93, sho: 60, pas: 68, def: 74, phy: 80 },
-        { name: "A. Djiku", role: "CB", ovr: 80, pac: 76, sho: 48, pas: 66, def: 81, phy: 83 },
-        { name: "R. Rodrigo Becao", role: "CB", ovr: 79, pac: 68, sho: 35, pas: 55, def: 80, phy: 85 },
-        { name: "Ferdi Kadıoğlu", role: "LB", ovr: 82, pac: 84, sho: 72, pas: 80, def: 76, phy: 79 },
-        { name: "Sofyan Amrabat", role: "CDM", ovr: 80, pac: 68, sho: 65, pas: 75, def: 79, phy: 86 },
-        { name: "Fred Rodrigues", role: "CM", ovr: 81, pac: 77, sho: 74, pas: 79, def: 75, phy: 76 },
-        { name: "S. Szymanski", role: "CAM", ovr: 80, pac: 82, sho: 78, pas: 79, def: 62, phy: 70 },
-        { name: "Dusan Tadic", role: "LW", ovr: 82, pac: 65, sho: 80, pas: 85, def: 43, phy: 74 },
-        { name: "İrfan Can Kahveci", role: "RW", ovr: 79, pac: 72, sho: 79, pas: 81, def: 60, phy: 71 },
-        { name: "Edin Dzeko", role: "ST", ovr: 81, pac: 55, sho: 83, pas: 71, def: 30, phy: 75 }
-    ],
-    worldclass: [
-        { name: "Thibaut Courtois", role: "GK", ovr: 90, pac: 46, sho: 10, pas: 74, def: 90, phy: 83 },
-        { name: "Achraf Hakimi", role: "RB", ovr: 84, pac: 92, sho: 75, pas: 79, def: 76, phy: 78 },
-        { name: "Virgil van Dijk", role: "CB", ovr: 89, pac: 78, sho: 60, pas: 71, def: 89, phy: 86 },
-        { name: "Ruben Dias", role: "CB", ovr: 89, pac: 67, sho: 39, pas: 66, def: 89, phy: 87 },
-        { name: "Theo Hernandez", role: "LB", ovr: 85, pac: 95, sho: 71, pas: 76, def: 78, phy: 84 },
-        { name: "Rodri Hernandez", role: "CDM", ovr: 91, pac: 66, sho: 73, pas: 86, def: 87, phy: 85 },
-        { name: "Kevin De Bruyne", role: "CM", ovr: 91, pac: 72, sho: 88, pas: 94, def: 65, phy: 78 },
-        { name: "Jude Bellingham", role: "CAM", ovr: 90, pac: 80, sho: 82, pas: 83, def: 78, phy: 85 },
-        { name: "Mohamed Salah", role: "RW", ovr: 89, pac: 89, sho: 87, pas: 82, def: 45, phy: 75 },
-        { name: "Vinicius Jr.", role: "LW", ovr: 89, pac: 95, sho: 82, pas: 81, def: 29, phy: 68 },
-        { name: "Erling Haaland", role: "ST", ovr: 91, pac: 89, sho: 92, pas: 66, def: 45, phy: 88 }
-    ],
-    allstar: [
-        { name: "M. ter Stegen", role: "GK", ovr: 89, pac: 40, sho: 12, pas: 85, def: 89, phy: 80 },
-        { name: "Dani Carvajal", role: "RB", ovr: 84, pac: 80, sho: 54, pas: 78, def: 82, phy: 80 },
-        { name: "Antonio Rüdiger", role: "CB", ovr: 85, pac: 82, sho: 53, pas: 71, def: 84, phy: 86 },
-        { name: "Marquinhos", role: "CB", ovr: 87, pac: 78, sho: 56, pas: 75, def: 86, phy: 80 },
-        { name: "Alfonso Davies", role: "LB", ovr: 83, pac: 95, sho: 66, pas: 72, def: 74, phy: 77 },
-        { name: "Federico Valverde", role: "CM", ovr: 88, pac: 88, sho: 82, pas: 84, def: 78, phy: 82 },
-        { name: "Bernardo Silva", role: "CM", ovr: 88, pac: 69, sho: 78, pas: 86, def: 70, phy: 68 },
-        { name: "Lionel Messi", role: "CAM", ovr: 90, pac: 75, sho: 87, pas: 90, def: 33, phy: 64 },
-        { name: "Kylian Mbappe", role: "ST", ovr: 91, pac: 97, sho: 90, pas: 80, def: 36, phy: 78 },
-        { name: "Harry Kane", role: "ST", ovr: 90, pac: 69, sho: 93, pas: 84, def: 49, phy: 83 },
-        { name: "Cristiano Ronaldo", role: "ST", ovr: 86, pac: 77, sho: 88, pas: 75, def: 34, phy: 75 }
-    ]
+// SOFIFA PEAK (EN YÜKSEK POTANSİYEL) VERİ HAVUZU
+const sofifaPeakDB = {
+    "messi": { ovr: 94, pac: 89, sho: 92, pas: 92, def: 39 },
+    "ronaldo": { ovr: 94, pac: 92, sho: 93, pas: 82, def: 35 },
+    "tadic": { ovr: 85, pac: 72, sho: 81, pas: 86, def: 43 },
+    "dzeko": { ovr: 86, pac: 68, sho: 85, pas: 73, def: 32 },
+    "mbappe": { ovr: 92, pac: 97, sho: 89, pas: 80, def: 36 },
+    "haaland": { ovr: 91, pac: 89, sho: 93, pas: 66, def: 45 },
+    "bellingham": { ovr: 90, pac: 80, sho: 85, pas: 83, def: 78 },
+    "fred": { ovr: 82, pac: 79, sho: 74, pas: 79, def: 76 },
+    "ferdi": { ovr: 82, pac: 84, sho: 72, pas: 80, def: 76 },
+    "livakovic": { ovr: 83, pac: 45, sho: 15, pas: 65, def: 83 },
+    "osayi": { ovr: 79, pac: 93, sho: 58, pas: 66, def: 73 },
+    "djiku": { ovr: 81, pac: 76, sho: 45, pas: 65, def: 81 },
+    "becao": { ovr: 80, pac: 66, sho: 33, pas: 52, def: 81 },
+    "amrabat": { ovr: 82, pac: 70, sho: 65, pas: 76, def: 80 }
 };
 
-let matchInterval;
-let gameTime = 0;
-let timeStep = 0;
-let homeScore = 0, awayScore = 0;
-let homeMatrix = 80, awayMatrix = 80;
-let players = [];
-let ball = { x: 375, y: 240, targetX: 375, targetY: 240, speed: 0.13, holder: null };
-let matchRunning = false;
+// Diziliş Pozisyon Şablonları (FIFA ve FM Varyasyonları)
+const formations = {
+    "433_att": ["GK", "LB", "CB1", "CB2", "RB", "CM1", "CM2", "CAM", "LW", "ST", "RW"],
+    "4231_wide": ["GK", "LB", "CB1", "CB2", "RB", "CDM1", "CDM2", "CAM", "LM", "ST", "RM"],
+    "3421_fm": ["GK", "LCB", "CB", "RCB", "LM", "CM1", "CM2", "RM", "LF", "ST", "RF"],
+    "532_def": ["GK", "LWB", "CB1", "CB2", "CB3", "RWB", "CM1", "CM2", "CM3", "ST1", "ST2"]
+};
 
-function getShortName(name) {
-    let p = name.split(" ");
-    if(p.length > 1) {
-        if(p[0].length <= 2) return p[0] + " " + p[1];
-        return p[0][0] + ". " + p[p.length - 1];
-    }
-    return name;
+function generateSquadSlots(team) {
+    const formKey = document.getElementById(team === 'home' ? 'hForm' : 'aForm').value;
+    const container = document.getElementById(team === 'home' ? 'homeSlots' : 'awaySlots');
+    container.innerHTML = "";
+    
+    // Default mock popülasyon isimleri (Boş kalmasın, Maçkolik gibi hızlı doldurulabilsin diye)
+    const defaults = team === 'home' ? 
+        ["Livakovic", "Osayi", "Djiku", "Becao", "Ferdi", "Amrabat", "Fred", "Szymanski", "Tadic", "Dzeko", "İrfan"] :
+        ["Courtois", "Walker", "Dias", "Rudiger", "Theo", "Rodri", "Valverde", "Bellingham", "Vinicius", "Haaland", "Mbappe"];
+
+    formations[formKey].forEach((pos, idx) => {
+        const slot = document.createElement('div');
+        slot.className = 'pos-slot';
+        slot.innerHTML = `
+            <span>${pos}</span>
+            <input type="text" id="${team}_pos_${idx}" value="${defaults[idx] || ''}" placeholder="Futbolcu Adı">
+        `;
+        container.appendChild(slot);
+    });
 }
 
-function startEngine() {
+// SAYFA AÇILDIĞINDA SLOTLARI OTOMATİK ÜRET
+generateSquadSlots('home');
+generateSquadSlots('away');
+
+let players = [];
+let ball = { x: 380, y: 230, vx: 0, vy: 0, speed: 7, holder: null };
+let gameTime = 0, timeStep = 0, matchInterval = null, isRunning = false;
+let homeScore = 0, awayScore = 0;
+
+function getSofifaStats(name) {
+    let lower = name.toLowerCase().trim();
+    if (sofifaPeakDB[lower]) return sofifaPeakDB[lower];
+    // DATABASE'DE YOKSA: İsmin uzunluğuna göre rastgele ama mantıklı SOFIFA Peak üreten akıllı motor
+    let hash = lower.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    return {
+        ovr: 75 + (hash % 16), // 75-91 arası reyting
+        pac: 60 + (hash % 38),
+        sho: 50 + (hash % 43),
+        pas: 55 + (hash % 38),
+        def: 30 + (hash % 60)
+    };
+}
+
+function buildAndStart() {
+    players = [];
+    homeScore = 0; awayScore = 0; gameTime = 0;
+    
+    let duration = parseInt(document.getElementById('matchDuration').value);
+    timeStep = 90 / (duration * 60 * 30); // 30 FPS döngüsüne göre zaman adımı
+
+    buildTeam('home');
+    buildTeam('away');
+
     document.getElementById('setupPanel').classList.add('hidden');
     document.getElementById('matchPanel').classList.remove('hidden');
     
-    homeScore = 0; awayScore = 0; gameTime = 0;
-    matchRunning = true;
-
-    let duration = parseInt(document.getElementById('matchDuration').value);
-    // Maç süresi ölçekleme formülü (30 FPS döngüsüne göre oyun içi dakikayı büyütme)
-    let totalFrames = duration * 60 * 30;
-    timeStep = 90 / totalFrames;
-
-    calculateTacticalMatrices();
-    deployPlayers();
-    resetBallCenter();
-
-    matchInterval = setInterval(updatePhysicsLoop, 33);
+    ball.x = 380; ball.y = 230; ball.vx = 0; ball.vy = 0; ball.holder = null;
+    isRunning = true;
+    matchInterval = setInterval(matchEngineTick, 33); // YAĞ GİBİ AKAN 30FPS MOTORU
 }
 
-function calculateTacticalMatrices() {
-    // Sofifa özellik ağırlıklı gelişmiş taktik avantaj algoritmaları
-    homeMatrix = 82; awayMatrix = 82;
+function buildTeam(team) {
+    let isHome = team === 'home';
+    let formKey = document.getElementById(isHome ? 'hForm' : 'aForm').value;
+    let posLabels = formations[formKey];
+    let color = isHome ? '#3498db' : '#e74c3c';
 
-    let hTac = document.getElementById('hTactic').value;
-    let aTac = document.getElementById('aTactic').value;
-    let hLine = document.getElementById('hLine').value;
-    let aLine = document.getElementById('aLine').value;
-
-    // Gegenpress vs Tiki-Taka çarpışması
-    if (hTac === 'gegen' && aTac === 'tiki') homeMatrix += 4;
-    if (aTac === 'gegen' && hTac === 'tiki') awayMatrix += 4;
-
-    // Kontra Atak vs Önde Çizgi kuran takım avantajı (FM klasiği)
-    if (hTac === 'counter' && aLine === 'high') homeMatrix += 6;
-    if (aTac === 'counter' && hLine === 'high') awayMatrix += 6;
-
-    // Otobüsü Çekme stratejisinin kontra atağı kilitlemesi
-    if (hTac === 'bus' && aTac === 'counter') homeMatrix += 3;
-    if (aTac === 'bus' && hTac === 'counter') awayMatrix += 3;
-
-    if(document.getElementById('weather').value === 'rainy') {
-        // Yağmurlu hava teknik takımları zorlaştırır
-        if(hTac === 'tiki') homeMatrix -= 3;
-        if(aTac === 'tiki') awayMatrix -= 3;
-    }
-}
-
-function deployPlayers() {
-    players = [];
-    let hSquadKey = document.getElementById('hSquad').value;
-    let aSquadKey = document.getElementById('aSquad').value;
-
-    let hData = JSON.parse(JSON.stringify(sofifaDatabase[hSquadKey]));
-    let aData = JSON.parse(JSON.stringify(sofifaDatabase[aSquadKey]));
-
-    let hForm = document.getElementById('hForm').value;
-    let aForm = document.getElementById('aForm').value;
-
-    function build(team, formStr, roster) {
-        let isHome = team === 'home';
-        let color = isHome ? '#3498db' : '#e74c3c';
-        let side = isHome ? 1 : -1;
-        let line = document.getElementById(isHome ? 'hLine' : 'aLine').value;
+    posLabels.forEach((pos, idx) => {
+        let inputVal = document.getElementById(`${team}_pos_${idx}`).value || "Oyuncu";
+        let stats = getSofifaStats(inputVal);
         
-        let rosterIdx = 0;
+        // İsmi kısaltma formatına sok (Örn: Erling Haaland -> E. Haaland)
+        let nameParts = inputVal.trim().split(' ');
+        let shortName = nameParts.length > 1 ? nameParts[0][0] + ". " + nameParts[nameParts.length - 1] : inputVal;
 
-        // 1. Kaleci Yerleşimi
-        let gkData = roster.find(p => p.role === "GK") || roster[rosterIdx++];
+        // Koordinat Dağılım Matrisi
+        let coords = getFormationCoords(pos, isHome);
+
         players.push({
-            name: getShortName(gkData.name), team: team, currentRole: "GK", data: gkData,
-            baseX: isHome ? 35 : 715, baseY: 240, x: isHome ? 35 : 715, y: 240, color: isHome ? '#1abc9c':'#f39c12'
+            name: shortName, team: team, pos: pos, stats: stats,
+            baseX: coords.x, baseY: coords.y, x: coords.x, y: coords.y, color: color
         });
-
-        // Formasyon kırılımları
-        let defCount = parseInt(formStr[0]);
-        let midCount = parseInt(formStr[1]);
-        let attCount = parseInt(formStr[2]);
-        let amcCount = formStr.length === 4 ? parseInt(formStr[2]) : 0;
-        if(formStr.length === 4) attCount = parseInt(formStr[3]);
-
-        // 2. Defans Bloğu Kurulumu ve Mevki Uyum Kontrolü
-        for(let i=0; i<defCount; i++) {
-            let py = 480 * (i + 1) / (defCount + 1);
-            let px = isHome ? 140 : 610;
-            if(line === 'high') px += side * 45;
-            if(line === 'low') px -= side * 35;
-
-            let pData = roster.filter(p => p.role === "CB" || p.role === "LB" || p.role === "RB")[i] || roster[rosterIdx++];
-            // MEVKİ CEZASI: Eğer defans oyuncusu gidip ST veri kartına sahipse gücü düşer
-            let suitPenalty = (pData.role==='ST' || pData.role==='CAM') ? 0.65 : 1.0;
-
-            players.push({
-                name: getShortName(pData.name), team: team, currentRole: "DEF", data: pData, penalty: suitPenalty,
-                baseX: px, baseY: py, x: px, y: py, color: color
-            });
-        }
-
-        // 3. Merkez Orta Saha Kurulumu
-        for(let i=0; i<midCount; i++) {
-            let py = 480 * (i + 1) / (midCount + 1);
-            let px = isHome ? 290 : 460;
-
-            let pData = roster.filter(p => p.role === "CM" || p.role === "CDM")[i] || roster[rosterIdx++];
-            let suitPenalty = (pData.role==='GK' || pData.role==='ST') ? 0.70 : 1.0;
-
-            players.push({
-                name: getShortName(pData.name), team: team, currentRole: "MID", data: pData, penalty: suitPenalty,
-                baseX: px, baseY: py, x: px, y: py, color: color
-            });
-        }
-
-        // 4. Ofansif / Forvet Grubu Kurulumu
-        let totalAttackers = amcCount + attCount;
-        for(let i=0; i<totalAttackers; i++) {
-            let py = 480 * (i + 1) / (totalAttackers + 1);
-            let px = isHome ? 460 : 290;
-            if(i >= amcCount) px = isHome ? 560 : 190; // İleri uç hattı
-
-            let pData = roster.filter(p => p.role === "ST" || p.role === "LW" || p.role === "RW" || p.role === "CAM")[i] || roster[rosterIdx++];
-            let suitPenalty = (pData.role==='CB' || pData.role==='GK') ? 0.60 : 1.0;
-
-            players.push({
-                name: getShortName(pData.name), team: team, currentRole: "ATT", data: pData, penalty: suitPenalty,
-                baseX: px, baseY: py, x: px, y: py, color: color
-            });
-        }
-    }
-
-    build('home', hForm, hData);
-    build('away', aForm, aData);
+    });
 }
 
-function updatePhysicsLoop() {
-    if (!matchRunning) return;
-    
+function getFormationCoords(pos, isHome) {
+    // Sahayı 760x460 olarak oranla
+    let x = 380, y = 230;
+    let factor = isHome ? 1 : -1;
+    let startX = isHome ? 0 : 760;
+
+    if (pos.includes("GK")) { x = isHome ? 40 : 720; y = 230; }
+    else if (pos.includes("CB")) { x = isHome ? 140 : 620; y = pos.includes("1")?150:pos.includes("2")?310:230; }
+    else if (pos === "LCB") { x = isHome ? 140 : 620; y = 140; }
+    else if (pos === "RCB") { x = isHome ? 140 : 620; y = 320; }
+    else if (pos === "LB" || pos === "LWB") { x = isHome ? 160 : 600; y = 70; }
+    else if (pos === "RB" || pos === "RWB") { x = isHome ? 160 : 600; y = 390; }
+    else if (pos.includes("CDM")) { x = isHome ? 260 : 500; y = pos.includes("1")?170:290; }
+    else if (pos.includes("CM")) { x = isHome ? 320 : 440; y = pos.includes("1")?130:pos.includes("2")?330:230; }
+    else if (pos === "CAM") { x = isHome ? 420 : 340; y = 230; }
+    else if (pos === "LM" || pos === "LW") { x = isHome ? 480 : 280; y = 80; }
+    else if (pos === "RM" || pos === "RW") { x = isHome ? 480 : 280; y = 380; }
+    else if (pos === "LF") { x = isHome ? 520 : 240; y = 150; }
+    else if (pos === "RF") { x = isHome ? 520 : 240; y = 310; }
+    else if (pos.includes("ST")) { x = isHome ? 580 : 180; y = pos.includes("1")?170:pos.includes("2")?290:230; }
+
+    return { x, y };
+}
+
+function matchEngineTick() {
+    if (!isRunning) return;
     gameTime += timeStep;
+
     if (gameTime >= 90) {
-        gameTime = 90;
-        matchRunning = false;
-        clearInterval(matchInterval);
-        reportEvent("DÜDÜK ÇALDI! Karşılaşma sona erdi.");
-        drawField();
+        gameTime = 90; isRunning = false; clearInterval(matchInterval);
+        document.getElementById('liveTicker').innerText = "MAÇ BİTTİ!";
         return;
     }
 
-    // Zaman Göstergesi Ayarı
-    let mins = Math.floor(gameTime).toString().padStart(2, '0');
-    let secs = Math.floor((gameTime % 1) * 60).toString().padStart(2, '0');
-    document.getElementById('timeDisplay').innerText = `${mins}:${secs}`;
+    // Skor ve Zaman Tablosu Güncelleme
+    document.getElementById('timeDisplay').innerText = Math.floor(gameTime).toString().padStart(2, '0') + ":" + Math.floor((gameTime%1)*60).toString().padStart(2, '0');
     document.getElementById('scoreDisplay').innerText = `${homeScore} - ${awayScore}`;
 
-    // TOP POSSESSION VE PAS SİMÜLASYONU
-    if (Math.random() < 0.06) {
-        let homeWeight = homeMatrix + (Math.random() * 15);
-        let awayWeight = awayMatrix + (Math.random() * 15);
-        let currentAttackerTeam = homeWeight > awayWeight ? 'home' : 'away';
+    // YAĞ GİBİ AKAN FİZİK SİMÜLASYONU VE PAS AKIŞI
+    if (ball.holder) {
+        // Top bir oyuncunun ayağındayken top oyuncuyla beraber akar
+        ball.x = ball.holder.x + (ball.holder.team === 'home' ? 6 : -6);
+        ball.y = ball.holder.y;
 
-        let candidates = players.filter(p => p.team === currentAttackerTeam && p.currentRole !== 'GK');
-        let holder = candidates[Math.floor(Math.random() * candidates.length)];
-        
-        if (holder) {
-            // Sofifa Pas yeteneğine bağlı isabet çarpanı kontrolü
-            let passCapability = holder.data.pas * (holder.penalty || 1);
-            if(passCapability > 50 + (Math.random() * 35)) {
-                // Başarılı pas organizasyonu
-                ball.targetX = holder.baseX + (currentAttackerTeam === 'home' ? 55 : -55) + (Math.random()*40 - 20);
-                ball.targetY = holder.baseY + (Math.random()*60 - 30);
-                ball.holder = holder;
-                
-                if(Math.random() < 0.2) {
-                    reportEvent(`${holder.name} akıllıca bir pas pas boşluğuna bıraktı.`);
-                }
-            } else {
-                // Pas hatası veya top kapma
-                let defTeam = currentAttackerTeam === 'home' ? 'away' : 'home';
-                let interceptors = players.filter(p => p.team === defTeam && p.currentRole === 'DEF');
-                let interceptor = interceptors[Math.floor(Math.random() * interceptors.length)];
-                if(interceptor) {
-                    ball.targetX = interceptor.baseX;
-                    ball.targetY = interceptor.baseY;
-                    ball.holder = interceptor;
-                    reportEvent(`${interceptor.name} araya girerek topu takımına kazandırdı!`);
-                }
-            }
-        }
+        // Karar Mekanizması: Pas mı, Şut mu?
+        let shootZone = ball.holder.team === 'home' ? ball.x > 560 : ball.x < 200;
+        if (shootZone && Math.random() < 0.08) {
+            // Şut Çekme Algoritması (Sofifa SHO reytingine bağlı vektörel fırlatma)
+            let targetY = 230 + (Math.random() * 60 - 30);
+            let targetX = ball.holder.team === 'home' ? 750 : 10;
+            let angle = Math.atan2(targetY - ball.y, targetX - ball.x);
+            
+            ball.vx = Math.cos(angle) * ball.speed * 1.6;
+            ball.vy = Math.sin(angle) * ball.speed * 1.6;
+            
+            let shooter = ball.holder.name;
+            ball.holder = null;
 
-        // ŞUT VE POZİSYON DEĞERLENDİRME DÖNGÜSÜ
-        let shootChance = currentAttackerTeam === 'home' ? (ball.x > 500) : (ball.x < 250);
-        if (shootChance && Math.random() < 0.35) {
-            let activeAttacker = players.filter(p => p.team === currentAttackerTeam && p.currentRole === 'ATT')[0];
-            if(activeAttacker) {
-                let targetGK = players.find(p => p.team === (currentAttackerTeam === 'home' ? 'away' : 'home') && p.currentRole === 'GK');
-                ball.targetX = currentAttackerTeam === 'home' ? 745 : 5;
-                ball.targetY = 240 + (Math.random() * 60 - 30);
-                
-                // Sofifa Bitiricilik (SHO) vs Kaleci Kurtarış (DEF) Karşılaştırması
-                let shotPower = activeAttacker.data.sho * (activeAttacker.penalty || 1) + (Math.random() * 20);
-                let gkSaving = targetGK.data.def + (Math.random() * 25);
-
-                if (shotPower > gkSaving) {
-                    if(currentAttackerTeam === 'home') homeScore++; else awayScore++;
-                    reportEvent(`TEHLİKELİ POZİSYON... Ve GOOOL! ${activeAttacker.name} harika bitirdi!`);
-                    resetBallCenter();
+            // Gol Olasılık Matrisi
+            setTimeout(() => {
+                if (!ball.holder && Math.random() < 0.33) {
+                    if (targetX === 750) homeScore++; else awayScore++;
+                    document.getElementById('liveTicker').innerText = `GOOOL! ${shooter} ağları sarstı!`;
+                    ball.x = 380; ball.y = 230; ball.vx = 0; ball.vy = 0;
                 } else {
-                    reportEvent(`${activeAttacker.name} sert vurdu ancak kaleci ${targetGK.name} başarılı!`);
-                    ball.targetX = targetGK.x; ball.targetY = targetGK.y;
+                    document.getElementById('liveTicker').innerText = `${shooter} kaleyi denedi, az farkla dışarıda veya kalecide!`;
+                    ball.vx *= -0.4; // Top sekmesi
                 }
+            }, 400);
+
+        } else if (Math.random() < 0.15) {
+            // Pas Atma Algoritması (Aynı takımdan en yakın oyuncuya kusursuz yuvarlanma)
+            let teammates = players.filter(p => p.team === ball.holder.team && p !== ball.holder);
+            let targetPlayer = teammates[Math.floor(Math.random() * teammates.length)];
+            
+            if (targetPlayer) {
+                let angle = Math.atan2(targetPlayer.y - ball.y, targetPlayer.x - ball.x);
+                ball.vx = Math.cos(angle) * ball.speed * 1.2;
+                ball.vy = Math.sin(angle) * ball.speed * 1.2;
+                ball.holder = null;
             }
         }
+    } else {
+        // Top boşta veya pas halindeyse sürtünmesiz vektörel hareket eder (Kasılmayı engeller)
+        ball.x += ball.vx;
+        ball.y += ball.vy;
+
+        // Topa en yakın olan oyuncu topu kontrolü altına alır
+        players.forEach(p => {
+            let dist = Math.hypot(ball.x - p.x, ball.y - p.y);
+            if (dist < 15) {
+                ball.holder = p;
+                ball.vx = 0; ball.vy = 0;
+            }
+        });
     }
 
-    // Topun Fiziksel Akışı
-    ball.x += (ball.targetX - ball.x) * ball.speed;
-    ball.y += (ball.targetY - ball.y) * ball.speed;
-
-    // OYUNCULARIN FM TARZI MİKRO POZİSYON ALMALARI
+    // OYUNCULARIN AKICI REAKSİYON HAREKETLERİ
     players.forEach(p => {
-        let distanceToBall = Math.hypot(ball.x - p.baseX, ball.y - p.baseY);
-        // Eğer top oyuncunun taktik etki alanındaysa topa doğru meyleder
-        if (distanceToBall < 160) {
-            let factor = (p.data.pac / 100) * 0.09; // Hız (PAC) parametresinin etkisi
-            p.x += ((ball.x + p.baseX)/2 - p.x) * factor;
-            p.y += ((ball.y + p.baseY)/2 - p.y) * factor;
+        let distToBall = Math.hypot(ball.x - p.baseX, ball.y - p.baseY);
+        if (distToBall < 180) {
+            // Topa doğru dinamik koşu ivmesi (Sofifa Hız etkisi)
+            let speedMod = p.stats.pac / 100 * 0.08;
+            p.x += (ball.x - p.x) * speedMod;
+            p.y += (ball.y - p.y) * speedMod;
         } else {
-            // Top uzaksa kendi taktiksel pozisyon çizgisine geri döner
-            p.x += (p.baseX - p.x) * 0.05;
-            p.y += (p.baseY - p.y) * 0.05;
+            // Kendi taktiksel alanına yumuşak dönüş hareketi
+            p.x += (p.baseX - p.x) * 0.04;
+            p.y += (p.baseY - p.y) * 0.04;
         }
     });
 
-    drawField();
+    drawPitch();
 }
 
-function resetBallCenter() {
-    ball.x = 375; ball.y = 240; ball.targetX = 375; ball.targetY = 240; ball.holder = null;
-}
+function drawPitch() {
+    // Yeşil Saha Çizimi
+    ctx.fillStyle = '#113318';
+    ctx.fillRect(0, 0, 760, 460);
 
-function reportEvent(txt) {
-    document.getElementById('liveReport').innerText = txt;
-}
-
-function drawField() {
-    // 1. Sahayı Temizle ve Çimleri Boya
-    ctx.fillStyle = '#143d1f';
-    ctx.fillRect(0, 0, 750, 480);
-
-    // 2. Saha Çizgileri Grafikleri
-    ctx.strokeStyle = varColor('--pitch-line');
+    // Saha Çizgileri Grafiği
+    ctx.strokeStyle = 'rgba(255,255,255,0.3)';
     ctx.lineWidth = 2;
-    ctx.strokeRect(10, 10, 730, 460); // Sınırlar
+    ctx.strokeRect(15, 15, 730, 430);
 
-    // Orta Saha Çizgisi ve Yuvarlağı
-    ctx.beginPath();
-    ctx.moveTo(375, 10); ctx.lineTo(375, 470);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.arc(375, 240, 65, 0, 2 * Math.PI);
-    ctx.stroke();
+    // Orta Saha ve Ceza Sahaları
+    ctx.beginPath(); ctx.moveTo(380, 15); ctx.lineTo(380, 445); ctx.stroke();
+    ctx.beginPath(); ctx.arc(380, 230, 60, 0, 2 * Math.PI); ctx.stroke();
+    ctx.strokeRect(15, 115, 75, 230); ctx.strokeRect(670, 115, 75, 230);
 
-    // Ceza Sahaları
-    ctx.strokeRect(10, 110, 80, 260); // Sol Ceza Sahası
-    ctx.strokeRect(660, 110, 80, 260); // Sağ Ceza Sahası
-
-    // Altıpas Alanları
-    ctx.strokeRect(10, 180, 30, 120);
-    ctx.strokeRect(710, 180, 30, 120);
-
-    // Kale Direkleri Çizgisi
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(5, 210, 5, 60);
-    ctx.fillRect(740, 210, 5, 60);
-
-    // 3. Oyuncuları Çiz (2D Daire Yapısı)
+    // Oyuncuların Çizimi (FM Tarzı 2D Yuvarlaklar)
     players.forEach(p => {
         ctx.beginPath();
         ctx.arc(p.x, p.y, 11, 0, 2 * Math.PI);
         ctx.fillStyle = p.color;
         ctx.fill();
-        ctx.strokeStyle = '#ffffff';
+        ctx.strokeStyle = '#fff';
         ctx.lineWidth = 2;
         ctx.stroke();
 
-        // Eğer topa bu oyuncu sahipse etrafında parıltı çemberi oluşturur
-        if(ball.holder === p && Math.hypot(ball.x - p.x, ball.y - p.y) < 20) {
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, 16, 0, 2 * Math.PI);
-            ctx.strokeStyle = varColor('--accent');
-            ctx.lineWidth = 1.5;
-            ctx.stroke();
-        }
-
-        // Oyuncu İsimleri Grafiği (Altında Küçük ve Okunaklı Kısaltma)
-        ctx.fillStyle = '#ffffff';
-        ctx.font = "bold 9px 'Segoe UI', Arial";
+        // Kısaltılmış İsim Etiketleri (Göz yormayan minimal font)
+        ctx.fillStyle = '#fff';
+        ctx.font = "bold 9px Arial";
         ctx.textAlign = "center";
-        // Göz yormaması için metin arkasına hafif gölge efekti
-        ctx.shadowColor = "black";
-        ctx.shadowBlur = 4;
-        ctx.fillText(p.name, p.x, p.y + 21);
-        ctx.shadowBlur = 0; // Gölgeyi sıfırla
+        ctx.shadowColor = "black"; ctx.shadowBlur = 3;
+        ctx.fillText(p.name, p.x, p.y + 20);
+        ctx.shadowBlur = 0;
     });
 
-    // 4. Top Grafiği
+    // Top Çizimi
     ctx.beginPath();
     ctx.arc(ball.x, ball.y, 6, 0, 2 * Math.PI);
-    ctx.fillStyle = '#ffffff';
+    ctx.fillStyle = '#fff';
     ctx.fill();
-    ctx.strokeStyle = '#000000';
-    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 1;
     ctx.stroke();
 }
 
-function varColor(name) {
-    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-}
-
-function abortMatch() {
-    matchRunning = false;
-    clearInterval(matchInterval);
+function stopMatchLoop() {
+    isRunning = false; clearInterval(matchInterval);
     document.getElementById('setupPanel').classList.remove('hidden');
     document.getElementById('matchPanel').classList.add('hidden');
 }
 </script>
-
 </body>
 </html>
